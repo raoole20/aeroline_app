@@ -1,0 +1,33 @@
+version: '3.6'
+services:
+    abdi-mysql:
+        container_name: abdi-mysql
+        image: mysql:5.7
+        ports:
+         - "3306:3306"
+        environment:
+          MYSQL_USER: admin
+          MYSQL_PASSWORD: admin
+          MYSQL_ROOT_PASSWORD: admin # password root mysql
+        entrypoint: # create db if not exist
+          sh -c "
+           echo 'CREATE DATABASE IF NOT EXISTS abdi_db; CREATE DATABASE IF NOT EXISTS abdi_findata; CREATE DATABASE IF NOT EXISTS abdi_finance;' > /docker-entrypoint-initdb.d/init.sql;
+           /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8 --collation-server=utf8_general_ci "  
+        volumes:
+         - mysql-data:/var/lib/mysql:rw # persistent volume
+         #- mysql-data-ram:/var/lib/mysql:rw # ram/memory volume
+         - ./my.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf # config mysql server
+volumes:
+  mysql-data:
+    driver: local
+
+### ram/memory storage for faster testing code or need fast insert and query
+#volumes:
+#  mysql-data-ram:
+#    driver_opts:
+#      type: tmpfs
+#      device: tmpfs
+
+networks:
+  docker-network:
+    external: true
