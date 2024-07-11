@@ -3,8 +3,6 @@ package app.components.body;
 import java.awt.*;
 import javax.swing.*;
 
-import com.speedment.codegen.model.modifier.Keyword.public_;
-
 import app.Models.types.AppColors;
 import app.Models.types.InnerRoutes;
 
