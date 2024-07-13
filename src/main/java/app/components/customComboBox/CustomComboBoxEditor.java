@@ -1,137 +1,61 @@
 package app.components.customComboBox;
 
-import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionListener;
-import javax.swing.ComboBoxEditor;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import java.util.ArrayList;
+import javax.swing.*;
+
+import app.Models.types.AppColors;
+
+import java.awt.*; 
 
 public class CustomComboBoxEditor {
-    // public static void main(String[] args) {
-    //     // new CustomComboBoxEditor();
-    // }
+    private JPanel mainPanel;
+    private JLabel label;
+    private JComboBox<Object> comboBox;
+    private JButton icon = new JButton();
 
-    public CustomComboBoxEditor() {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-                }
-                
-                JComboBox cb = new JComboBox();
-                cb.addItem("Apple");
-                cb.addItem("Banana");
-                cb.addItem("Orange");
-                cb.setEditable(true);
-                cb.setEditor(new MyComboBoxEditor());
-                
-                JFrame frame = new JFrame("Testing");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setLayout(new GridBagLayout());
-                frame.add(cb);
-                frame.pack();
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-            }
-        });
+    public CustomComboBoxEditor(
+        JPanel parentElement,
+        String text,
+        String url,
+        ArrayList<String> options
+    ) {
+        this.mainPanel = new JPanel();
+        this.mainPanel.setPreferredSize(new Dimension(150, 48));
+        this.mainPanel.setMinimumSize(new Dimension(100, 48));
+        this.mainPanel.setMaximumSize(new Dimension(150, 48));
+        this.mainPanel.setLayout(new BorderLayout());
+        this.mainPanel.setBackground(new Color(0, 0, 0, 0));
+        this.mainPanel.setOpaque(false);
+
+        this.label = new JLabel(text);
+
+        options.add("test 1");
+        options.add("test 1");
+        options.add("test 1");
+        options.add("test 1");
+        options.add("test 1");
+        options.add("test 1");
+        this.comboBox = new JComboBox<Object>(options.toArray());
+        this.comboBox.setBackground(Color.WHITE);
+        this.setIcon(url);
+
+        this.mainPanel.add(this.label, BorderLayout.NORTH);
+        this.mainPanel.add(this.comboBox, BorderLayout.CENTER);
+
+        parentElement.add(this.mainPanel);
     }
-    
-    public class MyComboBoxEditor implements ComboBoxEditor {
 
-        private EditorPane editorPane;
-        
-        public MyComboBoxEditor() {
-            editorPane = new EditorPane();
-        }
-        
-        @Override
-        public Component getEditorComponent() {
-            return editorPane;
-        }
+    public void setIcon(String url) {
+        this.icon.setFocusPainted(false); // Esto evita que se pinte el borde de enfoque
+        this.icon.setIcon(new ImageIcon(url)); // NOI18N
+        this.icon.setContentAreaFilled(false);
+        this.icon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        this.icon.setBorderPainted(false); // Opcional, si también quieres quitar el borde.
+        this.icon.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        this.icon.setForeground(Color.white);
 
-        @Override
-        public void setItem(Object anObject) {
-            editorPane.setText(anObject == null ? null : anObject.toString());
-        }
-
-        @Override
-        public Object getItem() {
-            return editorPane.getText();
-        }
-
-        @Override
-        public void selectAll() {
-            editorPane.selectAll();
-        }
-
-        @Override
-        public void addActionListener(ActionListener l) {
-            editorPane.addActionListener(l);
-        }
-
-        @Override
-        public void removeActionListener(ActionListener l) {
-            editorPane.removeActionListener(l);
-        }
-        
+        // this.mainPanel.add(this.icon, BorderLayout.WEST);
     }
-    
-    public class EditorPane extends JPanel {
 
-        private JTextField field;
-        private JButton button;
-        
-        public EditorPane() {
-            field = new JTextField(10);
-            button = new JButton("X");
-            setLayout(new GridBagLayout());
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.weightx = 1;
-            gbc.fill = GridBagConstraints.HORIZONTAL;
-            gbc.gridx = 0;
-            add(field, gbc);
-            gbc.weightx = 0;
-            gbc.fill = GridBagConstraints.NONE;
-            gbc.gridx++;
-            add(button, gbc);
-        }
 
-        @Override
-        public void addNotify() {
-            super.addNotify(); 
-            field.requestFocusInWindow();
-        }
-        
-        public void selectAll() {
-            field.selectAll();
-        }
-        
-        public void setText(String text) {
-            field.setText(text);
-        }
-        
-        public String getText() {
-            return field.getText();
-        }
-        
-        public void addActionListener(ActionListener listener) {
-            field.addActionListener(listener);
-        }
-        
-        public void removeActionListener(ActionListener listener) {
-            field.removeActionListener(listener);
-        }
-        
-    }
-    
 }
