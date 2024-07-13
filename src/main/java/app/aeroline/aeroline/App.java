@@ -9,7 +9,8 @@ import app.components.sidebar.Sidebar;
 
 public class App {
     private JFrame mainPanel;
-
+    private ImageIcon icon = new ImageIcon("src/main/java/app/assets/icon.png");
+    
     // childrens
     private Sidebar sideMenu;
     private BodyComponent bodyComponent;
@@ -19,8 +20,11 @@ public class App {
 
     public App() {
         this.mainPanel = new JFrame("AeroLine App");
+        this.mainPanel.setResizable(false);
+        this.mainPanel.pack();
+        this.mainPanel.setIconImage(this.icon.getImage());
 
-        // default children
+        // Establece el icono en el JFrame
         this.sideMenu = new Sidebar(this.mainPanel);
         this.bodyComponent = new BodyComponent(this.mainPanel);
 

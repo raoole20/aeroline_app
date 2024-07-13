@@ -3,20 +3,26 @@ package app.components.body;
 import java.awt.*;
 import javax.swing.*;
 
+import app.Models.Views.Home.Home;
 import app.Models.types.AppColors;
 import app.Models.types.InnerRoutes;
 
 public class BodyComponent {
-    public JPanel mainPanel;
+    private JPanel mainPanel;
+
+    // default childrens
+    private Home home;
 
     public BodyComponent(JFrame parentElement) {
-       this.mainPanel = new JPanel();
-       this.mainPanel.setBackground(AppColors.COLUMBIA_BLUE);
+        this.mainPanel = new JPanel();
+        // this.mainPanel.setBackground(AppColors.COLUMBIA_BLUE);
+        this.mainPanel.setBackground(Color.WHITE); // RGBA, donde A es el componente alfa
+        this.mainPanel.setLayout(new BorderLayout());
 
-       this.changeView();
-       parentElement.add(this.mainPanel, BorderLayout.CENTER);
+        this.changeView();
+        parentElement.add(this.mainPanel, BorderLayout.CENTER);
     }
-    
+
     private void clearPanel() {
         this.mainPanel.removeAll(); // Elimina todos los componentes
         this.mainPanel.revalidate(); // Revalida el layout del panel
@@ -57,27 +63,22 @@ public class BodyComponent {
         mainPanel.add(label);
     }
 
-
     private void tickets() {
         JLabel label = new JLabel("tickets");
         mainPanel.add(label);
     }
-
 
     private void passengers() {
         JLabel label = new JLabel("passengers");
         mainPanel.add(label);
     }
 
-
     private void flights() {
         JLabel label = new JLabel("flights");
         mainPanel.add(label);
     }
 
-
     private void home() {
-        JLabel label = new JLabel("home");
-        mainPanel.add(label);
+        this.home = new Home(this.mainPanel);
     }
 }

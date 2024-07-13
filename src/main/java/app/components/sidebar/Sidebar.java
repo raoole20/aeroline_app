@@ -22,7 +22,7 @@ public class Sidebar {
     private JButton homeButton;
     private JButton settingsButton;
     private JPanel sideMenuPanel;
-
+    private JLabel copyRight;
     // route controller
     private Routes router;
 
@@ -44,6 +44,7 @@ public class Sidebar {
         this.buildMenuButton();
         this.buildHomeButton();
         this.buildSetingsButton();
+        this.biuldCopyRightFooter();
 
         // add to parent
         parentElement.add(this.sideMenuPanel, BorderLayout.WEST);
@@ -99,6 +100,13 @@ public class Sidebar {
         this.handlerRedirectSettings();
 
         this.sideMenuPanel.add(this.settingsButton);
+    }
+
+    private void biuldCopyRightFooter() {
+        this.copyRight = new JLabel("");
+        this.copyRight.setForeground(Color.white);
+        this.copyRight.setBorder(BorderFactory.createEmptyBorder(400, 25, 0, 0));
+        this.sideMenuPanel.add(this.copyRight, BorderLayout.SOUTH);
     }
 
     private void toggleMenuAction() {
@@ -178,11 +186,13 @@ public class Sidebar {
         this.toggleMenuButton.setText("");        
         this.homeButton.setText("Home");
         this.settingsButton.setText("Settings");
+        this.copyRight.setText("© 2021 - All rights reserved");
     }
 
     private void hideButtonText() {
         this.toggleMenuButton.setText("");
         this.homeButton.setText("");
         this.settingsButton.setText("");
+        this.copyRight.setText(null);
     }
 }

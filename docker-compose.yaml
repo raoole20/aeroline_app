@@ -11,7 +11,7 @@ services:
           MYSQL_ROOT_PASSWORD: admin # password root mysql
         entrypoint: # create db if not exist
           sh -c "
-           echo 'CREATE DATABASE IF NOT EXISTS abdi_db; CREATE DATABASE IF NOT EXISTS abdi_findata; CREATE DATABASE IF NOT EXISTS abdi_finance;' > /docker-entrypoint-initdb.d/init.sql;
+           echo 'CREATE DATABASE IF NOT EXISTS aeroline; CREATE DATABASE IF NOT EXISTS aeroline; CREATE DATABASE IF NOT EXISTS aeroline;' > /docker-entrypoint-initdb.d/init.sql;
            /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8 --collation-server=utf8_general_ci "  
         volumes:
          - mysql-data:/var/lib/mysql:rw # persistent volume
