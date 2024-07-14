@@ -1,23 +1,30 @@
 package app.components.body;
 
 import java.awt.*;
+import java.sql.Connection;
+
 import javax.swing.*;
 
 import com.toedter.calendar.JDateChooser;
 
 import app.Models.Views.Home.Home;
-import app.Models.types.AppColors;
 import app.Models.types.InnerRoutes;
 
 public class BodyComponent {
     private JPanel mainPanel;
 
     // default childrens
+    @SuppressWarnings("unused")
     private Home home;
 
-    public BodyComponent(JFrame parentElement) {
+    // conexion a la base de datos
+    private Connection conexion;
+
+    public BodyComponent(
+        JFrame parentElement,
+        Connection conexion) {
+        this.conexion = conexion;
         this.mainPanel = new JPanel();
-        // this.mainPanel.setBackground(AppColors.COLUMBIA_BLUE);
         this.mainPanel.setBackground(Color.WHITE); // RGBA, donde A es el componente alfa
         this.mainPanel.setLayout(new BorderLayout());
 
@@ -85,6 +92,12 @@ public class BodyComponent {
     }
 
     private void home() {
-        this.home = new Home(this.mainPanel);
+        this.home = new Home(
+            this.mainPanel,
+            this.conexion
+        );
+        this.home.loader(mainPanel);
+
+        // this.home.bodyContainer();
     }
 }

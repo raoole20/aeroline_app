@@ -1,5 +1,7 @@
 package app.aeroline.aeroline;
 
+import java.sql.Connection;
+
 import javax.swing.*;
 
 import app.Models.types.InnerRoutes;
@@ -18,7 +20,14 @@ public class App {
     // routes controller
     private Routes routes;
 
-    public App() {
+    // conexion a la base de datos
+    private Connection conexion;
+
+    public App(
+        Connection conexion
+    ) {
+        this.conexion = conexion;
+
         this.mainPanel = new JFrame("AeroLine App");
         this.mainPanel.setResizable(false);
         this.mainPanel.pack();
@@ -26,7 +35,10 @@ public class App {
 
         // Establece el icono en el JFrame
         this.sideMenu = new Sidebar(this.mainPanel);
-        this.bodyComponent = new BodyComponent(this.mainPanel);
+        this.bodyComponent = new BodyComponent(
+            this.mainPanel,
+            this.conexion
+        );
 
         // rouutes
         this.routes = new Routes(

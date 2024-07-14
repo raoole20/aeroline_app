@@ -10,6 +10,7 @@ import app.components.flightcard.FlightCard;
 import app.components.searchbar.SearchBar;
 
 import java.awt.*;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -21,6 +22,10 @@ public class Home {
     // childrens
     private JPanel optionsMenuPanel;
     private JPanel resultPanel;
+    private JPanel bodyPanel;
+
+    // db connection
+    private Connection conexion;
 
     private ArrayList<String> countries = new ArrayList<>(Arrays.asList(
         "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina",
@@ -50,7 +55,10 @@ public class Home {
         "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
     ));
 
-    public Home(JPanel parentElement) {
+    public Home(
+        JPanel parentElement,
+        Connection conexion) {
+        this.conexion = conexion;
         this.mainPanel = new JPanel();
         this.mainPanel.setLayout(new BorderLayout());
         this.mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -99,19 +107,19 @@ public class Home {
     }
 
     public void bodyHome() {
-        JPanel bodyPanel = new JPanel();
-        bodyPanel.setLayout(new BorderLayout());
-        bodyPanel.setOpaque(false);
-        bodyPanel.setBorder(new EmptyBorder(10, 10, 0, 0));
+        this.bodyPanel = new JPanel();
+        this.bodyPanel.setLayout(new BorderLayout());
+        this.bodyPanel.setOpaque(false);
+        this.bodyPanel.setBorder(new EmptyBorder(10, 10, 0, 0));
 
         var searchBar = new SearchBar();
 
-        bodyPanel.add(searchBar.getSearchBar(), BorderLayout.NORTH);
-        bodyPanel.add(this.bodyContainer(), BorderLayout.CENTER);
-        this.mainPanel.add(bodyPanel, BorderLayout.CENTER);
+        this.bodyPanel.add(searchBar.getSearchBar(), BorderLayout.NORTH);
+        this.bodyPanel.add(this.bodyContainer(), BorderLayout.CENTER);
+        this.mainPanel.add(this.bodyPanel, BorderLayout.CENTER);
     }
 
-    private JPanel bodyContainer() {
+    public JPanel bodyContainer() {
         JPanel container = new JPanel();
         container.setLayout(new BorderLayout());
         container.setBackground(Color.WHITE);
@@ -124,21 +132,6 @@ public class Home {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setOpaque(false);
         scrollPane.setBackground(Color.white);
-
-        ArrayList<Flight> flights = new ArrayList<Flight>(Arrays.asList(
-            new Flight("1", "FL100", "New York", "London", "src/main/java/app/assets/search.png", "08:00", "20:00", "500", "Airline A", "12h"),
-            new Flight("2", "FL101", "Tokyo", "San Francisco", "src/main/java/app/assets/search.png", "09:00", "21:00", "700", "Airline B", "12h"),
-            new Flight("3", "FL102", "Berlin", "Paris", "src/main/java/app/assets/search.png", "10:00", "12:00", "200", "Airline C", "2h"),
-            new Flight("4", "FL103", "Sydney", "Los Angeles", "src/main/java/app/assets/search.png", "11:00", "23:00", "900", "Airline D", "12h"),
-            new Flight("5", "FL104", "Dubai", "Toronto", "src/main/java/app/assets/search.png", "12:00", "00:00", "1000", "Airline E", "12h"),
-            new Flight("6", "FL105", "São Paulo", "New York", "src/main/java/app/assets/search.png", "13:00", "01:00", "800", "Airline F", "12h"),
-            new Flight("7", "FL106", "Cairo", "Rome", "src/main/java/app/assets/search.png", "14:00", "16:00", "300", "Airline G", "2h"),
-            new Flight("8", "FL107", "Bangkok", "Tokyo", "src/main/java/app/assets/search.png", "15:00", "21:00", "400", "Airline H", "6h"),
-            new Flight("9", "FL108", "Moscow", "Berlin", "src/main/java/app/assets/search.png", "16:00", "18:00", "250", "Airline I", "2h"),
-            new Flight("10", "FL109", "Lima", "Buenos Aires", "src/main/java/app/assets/search.png", "17:00", "21:00", "350", "Airline J","4h")
-            )
-        );
-        this.setResults(flights);
 
         container.add(this.bodyContainerHeader(), BorderLayout.NORTH);
         container.add(scrollPane, BorderLayout.CENTER);
@@ -185,7 +178,7 @@ public class Home {
             Icon icon = new ImageIcon("src/main/java/app/assets/Flying airplane.gif");
             JLabel label = new JLabel(icon);
 
-            parentElement.add(label, BorderLayout.CENTER);
+            this.bodyPanel.add(label, BorderLayout.CENTER);
         } catch (Exception e) {
             e.printStackTrace();
         }

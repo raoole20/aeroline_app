@@ -1,8 +1,9 @@
 package app.aeroline.aeroline;
 
-import java.sql.Connection;
+import java.sql.SQLException;
 
 import app.Config.MySqlConnection;
+import app.Services.FlightService;
 import app.aeroline.FrameError;
 
 /**
@@ -10,7 +11,7 @@ import app.aeroline.FrameError;
  * @author Your name
  */
 public class Main {
-    public static void main(String[] param) {  
+    public static void main(String[] param) throws SQLException {  
         /**
          **Init all requeried instances
          * Estoy usando una arquitectura de tipo 'squeleton'
@@ -18,11 +19,12 @@ public class Main {
          * para que sea mas facil trabajar con las referencias
          */
         var _conexion = new MySqlConnection();
-        var _app = new App();
-
-        // se conecta a la base de datos
         var conexion = _conexion.ConectarDB();
+
         if(conexion != null) {
+            var flightService = new FlightService(_conexion);
+
+            var _app = new App(conexion);
             _app.printMainMenu();
         } else {
             FrameError.ViewError("Error connecting to the database");

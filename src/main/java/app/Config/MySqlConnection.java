@@ -6,14 +6,42 @@ public class MySqlConnection {
     public String user = "root";
     public String password = "admin";
 
-    public Connection ConectarDB() {
+    private Connection conexion;
+    private Statement statement;
+    public Boolean error = false;
+
+    public MySqlConnection() {
         try {
-            // Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conexion = DriverManager.getConnection(this.url, this.user, this.password);
-            return conexion;
+            this.conexion = DriverManager.getConnection(this.url, this.user, this.password);
+            this.statement = this.conexion.createStatement();
         } catch (SQLException e) {
+            System.out.println("Error connecting to the database");
+            this.error = true;
+        }
+    }
+
+    public Connection ConectarDB() {
+        if(this.error) {
             return null;
         }
-       
+
+        return this.conexion;
+    }
+
+    public Statement getStatement() {
+        if(this.error) {
+            return null;
+        }
+
+        return this.statement;
+    }
+
+    public ResultSet executeQuery(String query) {
+        try {
+            return this.statement.executeQuery(query);
+        } catch (SQLException e) {
+            System.out.println("Error executing query");
+            return null;
+        }
     }
 }
