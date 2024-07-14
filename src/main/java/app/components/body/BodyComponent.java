@@ -3,6 +3,8 @@ package app.components.body;
 import java.awt.*;
 import javax.swing.*;
 
+import com.toedter.calendar.JDateChooser;
+
 import app.Models.Views.Home.Home;
 import app.Models.types.AppColors;
 import app.Models.types.InnerRoutes;
@@ -60,11 +62,15 @@ public class BodyComponent {
 
     private void reports() {
         JLabel label = new JLabel("reports");
-        mainPanel.add(label);
+        JDateChooser dateChooser = new JDateChooser();
+        // Configura el dateChooser según necesites
+        // Por ejemplo, añadirlo a un panel
+        mainPanel.add(dateChooser);
+        // mainPanel.add(label);
     }
 
     private void tickets() {
-        JLabel label = new JLabel("tickets");
+        JLabel label = new JLabel("tickWets");
         mainPanel.add(label);
     }
 

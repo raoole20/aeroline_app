@@ -74,5 +74,20 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.19</version>
         </dependency>
+
+        <dependency>
+            <groupId>jcalendar</groupId>
+            <artifactId>jcalendar</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/jcalendar.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>local</groupId>
+            <artifactId>jgoodies-looks</artifactId>
+            <version>2.4.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/jgoodies-looks-2.4.1.jar</systemPath>
+        </dependency>
     </dependencies>
 </project>
