@@ -1,7 +1,7 @@
 package app.Models.DTOs;
 
 public class Flight {
-    public String id;
+    public int id;
     public String flightNumber;
     public String departure;
     public String arrival;
@@ -13,7 +13,7 @@ public class Flight {
     public String duration;
 
     public Flight(
-        String id,
+        int id,
         String flightNumber,
         String departure,
         String arrival,

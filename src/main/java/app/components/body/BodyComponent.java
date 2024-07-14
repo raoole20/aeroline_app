@@ -9,6 +9,7 @@ import com.toedter.calendar.JDateChooser;
 
 import app.Models.Views.Home.Home;
 import app.Models.types.InnerRoutes;
+import app.Services.FlightService;
 
 public class BodyComponent {
     private JPanel mainPanel;
@@ -18,12 +19,12 @@ public class BodyComponent {
     private Home home;
 
     // conexion a la base de datos
-    private Connection conexion;
+    private FlightService flightService;
 
     public BodyComponent(
-        JFrame parentElement,
-        Connection conexion) {
-        this.conexion = conexion;
+            JFrame parentElement,
+            FlightService flightService) {
+        this.flightService = flightService;
         this.mainPanel = new JPanel();
         this.mainPanel.setBackground(Color.WHITE); // RGBA, donde A es el componente alfa
         this.mainPanel.setLayout(new BorderLayout());
@@ -92,12 +93,15 @@ public class BodyComponent {
     }
 
     private void home() {
-        this.home = new Home(
-            this.mainPanel,
-            this.conexion
-        );
-        this.home.loader(mainPanel);
+        this.home = new Home(this.mainPanel);
 
-        // this.home.bodyContainer();
+        this.home.loader(mainPanel);
+        flightService.getFlightsAsync()
+                .thenAccept(result -> {
+                    System.out.println("Success getFlightsAsync");
+                    this.home.clearresultContainer();
+                    this.home.bodyContainer(result);
+                    this.home.repaintresultContainer();
+                });
     }
 }

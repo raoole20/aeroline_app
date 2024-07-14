@@ -24,7 +24,7 @@ public class Main {
         if(conexion != null) {
             var flightService = new FlightService(_conexion);
 
-            var _app = new App(conexion);
+            var _app = new App(flightService);
             _app.printMainMenu();
         } else {
             FrameError.ViewError("Error connecting to the database");

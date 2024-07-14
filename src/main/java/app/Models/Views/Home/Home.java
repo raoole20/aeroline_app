@@ -23,11 +23,10 @@ public class Home {
     private JPanel optionsMenuPanel;
     private JPanel resultPanel;
     private JPanel bodyPanel;
-
-    // db connection
-    private Connection conexion;
+    private JPanel resultContainer;
 
     private ArrayList<String> countries = new ArrayList<>(Arrays.asList(
+        "Select a country...",
         "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina",
         "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados",
         "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana",
@@ -56,18 +55,19 @@ public class Home {
     ));
 
     public Home(
-        JPanel parentElement,
-        Connection conexion) {
-        this.conexion = conexion;
+        JPanel parentElement) {
         this.mainPanel = new JPanel();
         this.mainPanel.setLayout(new BorderLayout());
         this.mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+
+        this.resultContainer = new JPanel();
 
         // Establece el color de fondo con transparencia
         this.mainPanel.setBackground(new Color(0, 0, 0, 0)); // RGBA, donde A es el componente alfa
 
         // Hace que el JPanel sea transparente
         this.mainPanel.setOpaque(false);
+
 
         // default childrens
         this.optionsMenu(); // NORT
@@ -115,15 +115,23 @@ public class Home {
         var searchBar = new SearchBar();
 
         this.bodyPanel.add(searchBar.getSearchBar(), BorderLayout.NORTH);
-        this.bodyPanel.add(this.bodyContainer(), BorderLayout.CENTER);
+        this.bodyPanel.add(this.bodyContainer(null), BorderLayout.CENTER);
         this.mainPanel.add(this.bodyPanel, BorderLayout.CENTER);
     }
 
-    public JPanel bodyContainer() {
-        JPanel container = new JPanel();
-        container.setLayout(new BorderLayout());
-        container.setBackground(Color.WHITE);
+    public void clearresultContainer() {
+        this.resultContainer.removeAll();
+    }
 
+    public void repaintresultContainer() {
+        this.resultContainer.revalidate();
+        this.resultContainer.repaint();
+    }
+
+    public JPanel bodyContainer(ArrayList<Flight> results) {
+        this.resultContainer.setLayout(new BorderLayout());
+        resultContainer.setBackground(Color.WHITE);
+ 
         this.resultPanel = new JPanel(); // ** Container for the results // <--------------------------------------------------------------------------------------------------------------------------------------
         this.resultPanel.setLayout(new BoxLayout(this.resultPanel, BoxLayout.Y_AXIS));
         this.resultPanel.setBackground(Color.WHITE);
@@ -133,9 +141,11 @@ public class Home {
         scrollPane.setOpaque(false);
         scrollPane.setBackground(Color.white);
 
-        container.add(this.bodyContainerHeader(), BorderLayout.NORTH);
-        container.add(scrollPane, BorderLayout.CENTER);
-        return container;
+        this.setResults(results);
+
+        resultContainer.add(this.bodyContainerHeader(), BorderLayout.NORTH);
+        resultContainer.add(scrollPane, BorderLayout.CENTER);
+        return resultContainer;
     }
 
     private JPanel bodyContainerHeader() {
@@ -159,7 +169,11 @@ public class Home {
     }
 
     public void setResults(ArrayList<Flight> results) {
-        this.resultPanel.removeAll();
+        if(results == null) {
+            var label = new JLabel("No results found");
+            this.resultPanel.add(label);
+            return;
+        }
 
         for (Flight result : results) {
             var resultCardElement = new FlightCard(
@@ -169,8 +183,6 @@ public class Home {
             this.resultPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         }
 
-        this.resultPanel.revalidate();
-        this.resultPanel.repaint();
     }
 
     public void loader(JPanel parentElement) {
@@ -178,7 +190,7 @@ public class Home {
             Icon icon = new ImageIcon("src/main/java/app/assets/Flying airplane.gif");
             JLabel label = new JLabel(icon);
 
-            this.bodyPanel.add(label, BorderLayout.CENTER);
+            this.resultContainer.add(label, BorderLayout.CENTER);
         } catch (Exception e) {
             e.printStackTrace();
         }

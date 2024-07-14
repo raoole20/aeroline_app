@@ -5,6 +5,7 @@ import java.sql.Connection;
 import javax.swing.*;
 
 import app.Models.types.InnerRoutes;
+import app.Services.FlightService;
 import app.classes.Routes;
 import app.components.body.BodyComponent;
 import app.components.sidebar.Sidebar;
@@ -21,15 +22,15 @@ public class App {
     private Routes routes;
 
     // conexion a la base de datos
-    private Connection conexion;
+    private FlightService flightService;
 
     public App(
-        Connection conexion
+        FlightService flightService
     ) {
-        this.conexion = conexion;
+        this.flightService = flightService;
 
         this.mainPanel = new JFrame("AeroLine App");
-        this.mainPanel.setResizable(false);
+        this.mainPanel.setResizable(true);
         this.mainPanel.pack();
         this.mainPanel.setIconImage(this.icon.getImage());
 
@@ -37,7 +38,7 @@ public class App {
         this.sideMenu = new Sidebar(this.mainPanel);
         this.bodyComponent = new BodyComponent(
             this.mainPanel,
-            this.conexion
+            this.flightService
         );
 
         // rouutes
