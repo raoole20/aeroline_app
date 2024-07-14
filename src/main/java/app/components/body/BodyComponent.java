@@ -10,6 +10,7 @@ import com.toedter.calendar.JDateChooser;
 import app.Models.Views.Home.Home;
 import app.Models.types.InnerRoutes;
 import app.Services.FlightService;
+import app.classes.Routes;
 
 public class BodyComponent {
     private JPanel mainPanel;
@@ -21,6 +22,9 @@ public class BodyComponent {
     // conexion a la base de datos
     private FlightService flightService;
 
+    // routes controller
+    private Routes route;
+
     public BodyComponent(
             JFrame parentElement,
             FlightService flightService) {
@@ -29,7 +33,6 @@ public class BodyComponent {
         this.mainPanel.setBackground(Color.WHITE); // RGBA, donde A es el componente alfa
         this.mainPanel.setLayout(new BorderLayout());
 
-        this.changeView();
         parentElement.add(this.mainPanel, BorderLayout.CENTER);
     }
 
@@ -69,7 +72,6 @@ public class BodyComponent {
     }
 
     private void reports() {
-        JLabel label = new JLabel("reports");
         JDateChooser dateChooser = new JDateChooser();
         // Configura el dateChooser según necesites
         // Por ejemplo, añadirlo a un panel
@@ -78,7 +80,7 @@ public class BodyComponent {
     }
 
     private void tickets() {
-        JLabel label = new JLabel("tickWets");
+        JLabel label = new JLabel("Buy Ticket with id " + this.route.getPayload().flighhtID);
         mainPanel.add(label);
     }
 
@@ -93,7 +95,9 @@ public class BodyComponent {
     }
 
     private void home() {
-        this.home = new Home(this.mainPanel);
+        this.home = new Home(
+            this.mainPanel,
+            this.route);
 
         this.home.loader(mainPanel);
         flightService.getFlightsAsync()
@@ -104,4 +108,8 @@ public class BodyComponent {
                     this.home.repaintresultContainer();
                 });
     }
+
+    public void setRouter(Routes route) {
+        this.route = route;
+    }   
 }

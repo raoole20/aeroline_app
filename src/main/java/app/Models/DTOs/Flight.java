@@ -34,4 +34,44 @@ public class Flight {
         this.airline = airline;
         this.duration = duration;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getFlightNumber() {
+        return flightNumber;
+    }
+
+    public String getDeparture() {
+        return departure;
+    }
+
+    public String getArrival() {
+        return arrival;
+    }
+
+    public String getLogoURL() {
+        return logoURL;
+    }
+
+    public String getDepartureTime() {
+        return departureTime;
+    }
+
+    public String getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public String getAirline() {
+        return airline;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
 }

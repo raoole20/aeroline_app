@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 
 import app.Models.DTOs.Flight;
 import app.Models.types.AppColors;
+import app.classes.Routes;
 import app.components.customComboBox.CustomComboBoxEditor;
 import app.components.flightcard.FlightCard;
 import app.components.searchbar.SearchBar;
@@ -54,8 +55,14 @@ public class Home {
         "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
     ));
 
+    // routes controller
+    private Routes routes;
+
     public Home(
-        JPanel parentElement) {
+        JPanel parentElement, 
+        Routes routes
+        ) {
+        this.routes = routes;
         this.mainPanel = new JPanel();
         this.mainPanel.setLayout(new BorderLayout());
         this.mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -178,7 +185,8 @@ public class Home {
         for (Flight result : results) {
             var resultCardElement = new FlightCard(
                 this.resultPanel,
-                result
+                result,
+                this.routes
             );
             this.resultPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         }

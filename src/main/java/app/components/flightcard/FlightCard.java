@@ -10,6 +10,9 @@ import javax.swing.*;
 
 import app.Models.DTOs.Flight;
 import app.Models.types.AppColors;
+import app.Models.types.InnerRoutes;
+import app.Models.types.Payload;
+import app.classes.Routes;
 import app.components.buttons.CustomButton;
 
 public class FlightCard {
@@ -17,9 +20,14 @@ public class FlightCard {
     private JPanel parentPanelElement;
     private Flight data;
 
+    // router controlle
+    private Routes routes;
+
     public FlightCard(
             JPanel parentElement,
-            Flight data) {
+            Flight data,
+            Routes routes) {
+        this.routes = routes;
         this.mainPanel = new JPanel();
         this.mainPanel.setLayout(new BorderLayout());
         this.mainPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
@@ -108,6 +116,14 @@ public class FlightCard {
         actionButtons.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
 
         CustomButton selectButton = new CustomButton("CHOOSE FLIGHT");
+        selectButton.getButton().addActionListener((e) -> {
+            Payload payload = new Payload();
+            payload.flighhtID = this.data.getId();
+            this.routes.setRoute(
+                InnerRoutes.TICKETS,
+                payload
+            );
+        });
         selectButton.setSecondary();    
         actionButtons.add(selectButton.getButton());
         return actionButtons;
@@ -141,7 +157,6 @@ public class FlightCard {
         JLabel logoFooterText = new JLabel(this.data.flightNumber);
         logoFooterText.setForeground(Color.GRAY);
         CustomButton logoFooterButton = new CustomButton("Bussines");
-
         // * add to parent
         logoPanel.add(logo);
         // logoPanel.add(logoText);

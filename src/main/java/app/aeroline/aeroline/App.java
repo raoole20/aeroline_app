@@ -43,7 +43,7 @@ public class App {
 
         // rouutes
         this.routes = new Routes(
-            InnerRoutes.HOME,
+            null,
             (Object route) -> {
                 this.bodyComponent.changeView((InnerRoutes) route);
             }
@@ -51,6 +51,9 @@ public class App {
 
         // add reference to routes
         this.sideMenu.setRouter(this.routes);
+        this.bodyComponent.setRouter(this.routes);
+
+        this.routes.setRoute(InnerRoutes.HOME);
     }
 
     public void printMainMenu() {
