@@ -17,9 +17,9 @@ public class Main {
          * es decir, solo tendre una instancia de mis clases 
          * para que sea mas facil trabajar con las referencias
          */
-        var _conexion = new MySqlConnection();
+        var _conexion = new MySqlConnection(); 
         var _app = new App();
-
+        
         // se conecta a la base de datos
         var conexion = _conexion.ConectarDB();
         if(conexion != null) {

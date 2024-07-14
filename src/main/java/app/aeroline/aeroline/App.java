@@ -12,13 +12,13 @@ public class App {
 
 
     public void printMainMenu() {
-        var mainPanel = new JFrame("AeroLine App");
+        var mainPanel = new JFrame("AeroLine App"); 
 
         // FIXME: este campo es temporal solo esta para probar que todo funcione bien
         var tempLabel = new JLabel("Hello World");
 
         // de alguna manera se tiene que colocar los hijos de manera dinamica
-        mainPanel.add(tempLabel);
+       // mainPanel.add(tempLabel);
 
         mainPanel.setSize(800, 600);
         mainPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
