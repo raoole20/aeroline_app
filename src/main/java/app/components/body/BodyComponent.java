@@ -8,6 +8,7 @@ import javax.swing.*;
 import com.toedter.calendar.JDateChooser;
 
 import app.Models.Views.Home.Home;
+import app.Models.Views.Tickets.TicketsView;
 import app.Models.types.InnerRoutes;
 import app.Services.FlightService;
 import app.classes.Routes;
@@ -73,15 +74,24 @@ public class BodyComponent {
 
     private void reports() {
         JDateChooser dateChooser = new JDateChooser();
-        // Configura el dateChooser según necesites
-        // Por ejemplo, añadirlo a un panel
         mainPanel.add(dateChooser);
-        // mainPanel.add(label);
     }
 
     private void tickets() {
-        JLabel label = new JLabel("Buy Ticket with id " + this.route.getPayload().flighhtID);
-        mainPanel.add(label);
+        TicketsView tickets = new TicketsView(
+            this.mainPanel, 
+            this.flightService,
+            this.route
+        );
+        
+        flightService.getSeatsByFlightID(this.route.getPayload().flighhtID)
+                .thenAccept(result -> {
+                    System.out.println("Success getSeatsByFlightID");
+                    tickets.clearPanel();
+                    tickets.setSeatsButtons(result);
+                    tickets.rePaint();
+                });
+     
     }
 
     private void passengers() {

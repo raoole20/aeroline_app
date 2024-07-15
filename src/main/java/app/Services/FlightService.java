@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 
 import app.Config.MySqlConnection;
 import app.Models.DTOs.Flight;
+import app.Models.DTOs.Seat;
 
 public class FlightService {
     private MySqlConnection connection;
@@ -60,6 +61,47 @@ public class FlightService {
                 return flights;
             } catch (Exception e) {
                 System.out.println("Error: getFlights, no se pudo ejecutar la consulta");
+                return null;
+            }
+        });
+    }
+
+    public CompletableFuture<ArrayList<Seat>> getSeatsByFlightID(int seatsID) {
+        return CompletableFuture.supplyAsync(() -> {
+            if (this.connection.error) {
+                System.out.println("Error: getSeatsByFlightID, no hay conexion a la base de datos");
+                return null;
+            }
+            try {
+                var query = "SELECT * FROM seats where flightID =  " + seatsID;
+                var result = this.connection.executeQuery(query);
+                var seats = new ArrayList<Seat>();
+    
+                if (result == null) {
+                    System.out.println("Flights not data");
+                    return null;
+                }
+    
+                while (result.next()) {
+                    int id = result.getInt("id");
+                    var flightID = result.getString("flightID");
+                    int status = result.getInt("status");
+                    var seatsCode = result.getString("seatsCode");
+      
+    
+                    var seat = new Seat(
+                            id,
+                            flightID,
+                            status,
+                            seatsCode
+                    );
+                    seats.add(seat);
+                }
+    
+                return seats;
+            } catch (Exception e) {
+                System.out.println("Error: getSeatsByFlightID, no se pudo ejecutar la consulta");
+              
                 return null;
             }
         });

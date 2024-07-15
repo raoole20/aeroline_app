@@ -10,6 +10,7 @@ public class Routes {
     private InnerRoutes ActiveRoute;
     private ObservableVariable<InnerRoutes> observableString;
     private Payload payload;
+    private InnerRoutes prevRoutes;
 
     public Routes(
         InnerRoutes defaultRoute,
@@ -28,6 +29,7 @@ public class Routes {
     }
 
     public void setRoute(InnerRoutes route, Payload payload) {
+        this.prevRoutes = this.ActiveRoute;
         this.payload = payload;
         if(this.ActiveRoute == route)
             return;
@@ -38,6 +40,7 @@ public class Routes {
     }
 
     public void setRoute(InnerRoutes route) {
+        this.prevRoutes = this.ActiveRoute;
         if(this.ActiveRoute == route)
             return;
         this.resetPayload(route);
@@ -53,5 +56,9 @@ public class Routes {
 
     public Payload getPayload() {
         return this.payload;
+    }
+
+    public InnerRoutes getPrevRoutes() {
+        return this.prevRoutes;
     }
 }

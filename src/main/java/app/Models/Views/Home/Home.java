@@ -143,7 +143,7 @@ public class Home {
         this.resultPanel.setLayout(new BoxLayout(this.resultPanel, BoxLayout.Y_AXIS));
         this.resultPanel.setBackground(Color.WHITE);
         JScrollPane scrollPane = new JScrollPane(this.resultPanel);
-        scrollPane.setBorder(new EmptyBorder(10, 0, 0, 0));
+        scrollPane.setBorder(new EmptyBorder(10, 0, 0, 10));
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setOpaque(false);
         scrollPane.setBackground(Color.white);
