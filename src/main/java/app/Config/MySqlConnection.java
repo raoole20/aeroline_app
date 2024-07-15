@@ -44,4 +44,18 @@ public class MySqlConnection {
             return null;
         }
     }
+
+    public PreparedStatement prepareUpdateQuery(String query) {
+        try (PreparedStatement preparedStatement = this.conexion.prepareStatement(query)) {
+
+            return preparedStatement;
+        } catch (SQLException e) {
+            System.out.println("Error executing update");
+            return null;
+        }
+    }
+
+    public Connection getConnection() {
+        return this.conexion;
+    }
 }

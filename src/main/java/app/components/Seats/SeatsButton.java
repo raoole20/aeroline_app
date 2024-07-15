@@ -77,4 +77,20 @@ public class SeatsButton {
     public boolean getIsSelected() {
         return this.isSelected;
     }
+
+    public int getSeatID() {
+        return this.seatID;
+    }
+
+    public boolean getIsAvailable() {
+        return this.isAvailable;
+    }
+
+    public String getSeatsCODE() {
+        return this.seatsCODE;
+    }
+
+    public Runnable getCallback() {
+        return this.callback;
+    }
 }

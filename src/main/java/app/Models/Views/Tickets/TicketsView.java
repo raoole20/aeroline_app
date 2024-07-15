@@ -13,7 +13,7 @@ import app.components.Seats.SeatsButton;
 public class TicketsView {
     private JPanel mainPanel;
 
-    // services 
+    // services
     private FlightService flightService;
 
     // Formulario
@@ -23,21 +23,20 @@ public class TicketsView {
     private JTextField email;
     private JTextField identityCard;
     private JTextField seatsNumber;
-    private JButton SubmitButton; 
+    private JButton SubmitButton;
 
     // Asientos Selector
     private JPanel seatsPanelWrapper;
     private JPanel seatsPanelResult;
     private ArrayList<SeatsButton> seatsButtons;
 
-    // Route controller 
+    // Route controller
     private Routes route;
-    
-    public TicketsView( 
-            JPanel parentElement, 
+
+    public TicketsView(
+            JPanel parentElement,
             FlightService flightService,
-            Routes route
-        ) {
+            Routes route) {
         this.flightService = flightService;
         this.route = route;
 
@@ -51,12 +50,12 @@ public class TicketsView {
         this.mainPanel.add(this.buildBackButtonPanel(), BorderLayout.NORTH);
         this.mainPanel.add(this.bluidForm(), BorderLayout.WEST);
         this.mainPanel.add(this.buildSeatsForm(), BorderLayout.CENTER);
-    
+
         parentElement.add(this.mainPanel, BorderLayout.CENTER);
 
         this.seatsButtons = new ArrayList<SeatsButton>();
 
-        // events 
+        // events
         this.sumbmitButtonEvent();
         this.onlyNumber(this.identityCard);
         this.onlyLetters(this.name);
@@ -79,7 +78,7 @@ public class TicketsView {
     }
 
     private void buildSeatsPanelWrapper() {
-        this.seatsPanelWrapper = new JPanel();  
+        this.seatsPanelWrapper = new JPanel();
         this.seatsPanelWrapper.setLayout(new BorderLayout());
         this.seatsPanelWrapper.setBackground(Color.white);
     }
@@ -90,8 +89,7 @@ public class TicketsView {
         this.formPanel.setPreferredSize(new Dimension(300, 300));
         this.formPanel.setBackground(Color.white);
         this.formPanel.setBorder(BorderFactory.createTitledBorder(
-            "Formulario"
-        ));
+                "Formulario"));
 
         this.formPanel.setBackground(Color.white);
 
@@ -100,7 +98,7 @@ public class TicketsView {
         this.email = new JTextField();
         this.identityCard = new JTextField();
         this.SubmitButton = new JButton("Submit");
-        this.seatsNumber = new JTextField();    
+        this.seatsNumber = new JTextField();
         seatsNumber.setText("0");
         seatsNumber.setEnabled(false);
 
@@ -113,7 +111,7 @@ public class TicketsView {
         wrapperForm.add(this.fieldWrapper(this.lastName, new JLabel("Last Name")));
         wrapperForm.add(this.fieldWrapper(this.email, new JLabel("Email")));
         wrapperForm.add(this.fieldWrapper(this.seatsNumber, new JLabel("Asientos")));
-      
+
         this.formPanel.add(wrapperForm, BorderLayout.CENTER);
         this.formPanel.add(this.buttonWrapper(SubmitButton), BorderLayout.SOUTH);
 
@@ -127,17 +125,15 @@ public class TicketsView {
         seatsExternalMaring.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 15));
 
         var seatsPanel = new JPanel();
-        seatsPanel.setLayout(new  BorderLayout());
+        seatsPanel.setLayout(new BorderLayout());
         seatsPanel.setBackground(Color.WHITE);
         seatsPanel.setBorder(BorderFactory.createTitledBorder(
-            "Asientos"
-        ));
+                "Asientos"));
 
         var seatsInternalMargin = new JPanel();
         seatsInternalMargin.setLayout(new BorderLayout());
         seatsInternalMargin.setBackground(Color.WHITE);
-        seatsInternalMargin.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));        
-
+        seatsInternalMargin.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
         JScrollPane scrollPane = new JScrollPane(this.seatsPanelWrapper);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
@@ -151,10 +147,10 @@ public class TicketsView {
         seatsExternalMaring.add(seatsPanel, BorderLayout.CENTER);
         return seatsExternalMaring;
     }
+
     private JPanel fieldWrapper(
-        JTextField field,
-        JLabel label
-    ) {
+            JTextField field,
+            JLabel label) {
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BorderLayout());
         wrapper.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -170,9 +166,8 @@ public class TicketsView {
         return wrapper;
     }
 
-    private JPanel buttonWrapper (
-        JButton button
-    ) {
+    private JPanel buttonWrapper(
+            JButton button) {
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new FlowLayout());
         wrapper.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -187,13 +182,13 @@ public class TicketsView {
         flowPanelSeats.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         flowPanelSeats.setBackground(Color.white);
         flowPanelSeats.setLayout(new BoxLayout(flowPanelSeats, BoxLayout.Y_AXIS));
-        
+
         var controll = 0;
         var tempContainer = new JPanel();
         tempContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
         for (Seat seat : seats) {
-            if(controll == 10) {
+            if (controll == 10) {
                 flowPanelSeats.add(tempContainer);
                 flowPanelSeats.add(Box.createRigidArea(new Dimension(0, 10)));
                 tempContainer = new JPanel();
@@ -202,24 +197,23 @@ public class TicketsView {
             } else {
                 boolean is5 = controll == 5;
 
-                if(is5) {
+                if (is5) {
                     tempContainer.add(Box.createRigidArea(new Dimension(50, 0)));
                 }
                 var button = new SeatsButton(
-                    seat.status == 0, // estado 1 == comprado 
-                    false,
-                    seat.seatsCode, 
-                    seat.id,
-                    () -> {
-                        var numeroDeAsientosSeleccionados = 0;
-                        for (SeatsButton seatButton : this.seatsButtons) {
-                            if(seatButton.getIsSelected()) {
-                                numeroDeAsientosSeleccionados++;
+                        seat.status == 0, // estado 1 == comprado
+                        false,
+                        seat.seatsCode,
+                        seat.id,
+                        () -> {
+                            var numeroDeAsientosSeleccionados = 0;
+                            for (SeatsButton seatButton : this.seatsButtons) {
+                                if (seatButton.getIsSelected()) {
+                                    numeroDeAsientosSeleccionados++;
+                                }
                             }
-                        }
-                        this.seatsNumber.setText(String.valueOf(numeroDeAsientosSeleccionados));
-                    }
-                );
+                            this.seatsNumber.setText(String.valueOf(numeroDeAsientosSeleccionados));
+                        });
                 this.seatsButtons.add(button);
                 tempContainer.add(button.getButton());
                 controll++;
@@ -227,6 +221,7 @@ public class TicketsView {
         }
         this.seatsPanelWrapper.add(flowPanelSeats, BorderLayout.CENTER);
     }
+
     public void clearPanel() {
         this.seatsPanelWrapper.removeAll();
         this.seatsPanelWrapper.revalidate();
@@ -244,35 +239,73 @@ public class TicketsView {
             var nombre = this.name.getText();
             var apellido = this.lastName.getText();
             var correo = this.email.getText();
-            var asientos = this.seatsNumber.getText();
-      
-            if(
-                cedula.isEmpty() 
-                || nombre.isEmpty() 
-                || apellido.isEmpty() 
-                || correo.isEmpty() 
-                || asientos.isEmpty()
-                || asientos.isEmpty()
-                || !isEmail(correo)
-            ) {
+            var asientos = Integer.parseInt(this.seatsNumber.getText());
+
+            if (cedula.isEmpty()
+                    || nombre.isEmpty()
+                    || apellido.isEmpty()
+                    || correo.isEmpty()
+                    || asientos == 0
+                    || !isEmail(correo)) {
                 var messageNombre = nombre.isEmpty() ? "Nombre" : "";
                 var messageApellido = apellido.isEmpty() ? "Apellido" : "";
                 var messageCorreo = correo.isEmpty() ? "Correo" : !isEmail(correo) ? "Correo no valido" : "";
                 var messageCedula = cedula.isEmpty() ? "Cedula" : "";
-                var messageAsientos = asientos.isEmpty() ? "Debe seleccionar almenos un asiento" : "";
+                var messageAsientos = asientos == 0 ? "Debe seleccionar almenos un asiento" : "";
 
                 JOptionPane.showMessageDialog(
-                    null, 
-                    "Faltan Los siguientes campos por llenar: \n" 
-                        + messageNombre + "\n"
-                        + messageApellido + "\n"
-                        + messageCorreo + "\n"
-                        + messageCedula + "\n"
-                        + messageAsientos
-                );
+                        null,
+                        "Faltan Los siguientes campos por llenar: \n"
+                                + messageNombre + "\n"
+                                + messageApellido + "\n"
+                                + messageCorreo + "\n"
+                                + messageCedula + "\n"
+                                + messageAsientos);
                 return;
             }
-            JOptionPane.showMessageDialog(null, "Se presionó el botón de submit");
+            // Carga el GIF en un JLabel
+            // Crea el contenido del diálogo
+            Icon icon = new ImageIcon("src/main/java/app/assets/Flying airplane.gif");
+            JLabel label = new JLabel(icon);
+            String message = "Procesando compra...";
+            JPanel contentPanel = new JPanel();
+            contentPanel.setLayout(new BorderLayout());
+            contentPanel.add(new JLabel(message), BorderLayout.NORTH);
+            contentPanel.add(label, BorderLayout.CENTER);
+
+            // Crea el diálogo personalizado
+            JDialog dialog = new JDialog();
+            dialog.setLayout(new BorderLayout());
+            dialog.setTitle("Proceso en curso");
+            dialog.setModal(true);
+            dialog.setContentPane(contentPanel);
+            dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+            dialog.setSize(300, 200); // Ajusta el tamaño según sea necesario
+            dialog.setLocationRelativeTo(null); // Centra el diálogo
+
+            this.flightService.comprarVuelo(
+                    this.route.getPayload().flighhtID,
+                    this.seatsButtons,
+                    asientos
+                    ).thenAccept(result -> {
+                        dialog.dispose();
+                        if (result) {
+                            dialog.removeAll();
+                            dialog.setVisible(false);
+
+                            JOptionPane.showMessageDialog(
+                                    null,
+                                    "Compra realizada con exito");
+                            this.route.setRoute(this.route.getPrevRoutes());
+                        } else {
+                            JOptionPane.showMessageDialog(
+                                    null,
+                                    "Error al realizar la compra");
+                        }
+                    });
+            // Muestra el diálogo
+            dialog.setVisible(true);
+
         });
     }
 
