@@ -12,7 +12,7 @@ import app.components.sidebar.Sidebar;
 
 public class App {
     private JFrame mainPanel;
-    private ImageIcon icon = new ImageIcon("src/main/java/app/assets/icon.png");
+    private ImageIcon icon = new ImageIcon(getClass().getResource("/app/assets/icon.png"));
     
     // childrens
     private Sidebar sideMenu;

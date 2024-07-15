@@ -86,17 +86,17 @@ public class FlightCard {
         JLabel feature1 = new JLabel("Carga USB");
         feature1.setForeground(Color.black);
         feature1.setFont(new Font("Arial", 0, 14)); 
-        feature1.setIcon(new ImageIcon("src/main/java/app/assets/usb.png"));
+        feature1.setIcon(new ImageIcon(getClass().getResource("/app/assets/usb.png")));
 
         JLabel feature2 = new JLabel("Sin limite de equipaje");
         feature2.setForeground(Color.black);
         feature2.setFont(new Font("Arial", 0, 14));
-        feature2.setIcon(new ImageIcon("src/main/java/app/assets/suitcase.png"));
+        feature2.setIcon(new ImageIcon(getClass().getResource("/app/assets/suitcase.png")));
 
         JLabel feature3 = new JLabel("Entretenimiento");
         feature3.setForeground(Color.black);
         feature3.setFont(new Font("Arial", 0, 14));
-        feature3.setIcon(new ImageIcon("src/main/java/app/assets/tv.png"));
+        feature3.setIcon(new ImageIcon(getClass().getResource("/app/assets/tv.png")));
 
         feature.add(featureText);
         feature.add(Box.createRigidArea(new Dimension(10, 0)));
@@ -142,7 +142,7 @@ public class FlightCard {
         logoText.setFont(new Font("Arial", Font.BOLD, 20));
         var logo = new JButton();
         logo.setBorder(BorderFactory.createEmptyBorder());
-        logo.setIcon(new ImageIcon("src/main/java/app/assets/visa.png"));
+        logo.setIcon(new ImageIcon(getClass().getResource("/app/assets/visa.png")));
         logo.setToolTipText("Search");
         logo.setBackground(AppColors.LAPIS_LAZULI);
         logo.setOpaque(false);
@@ -250,7 +250,7 @@ public class FlightCard {
     public JButton ImageIconButton() {
         var image = new JButton();
         image.setBorder(BorderFactory.createEmptyBorder());
-        image.setIcon(new ImageIcon("src/main/java/app/assets/clean_image_with_provided_airplane.png"));
+        image.setIcon(new ImageIcon(getClass().getResource("/app/assets/clean_image_with_provided_airplane.png")));
         image.setToolTipText("Search");
         image.setBackground(AppColors.LAPIS_LAZULI);
         image.setOpaque(false);

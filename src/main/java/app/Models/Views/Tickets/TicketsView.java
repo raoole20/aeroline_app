@@ -265,7 +265,7 @@ public class TicketsView {
             }
             // Carga el GIF en un JLabel
             // Crea el contenido del diálogo
-            Icon icon = new ImageIcon("src/main/java/app/assets/Flying airplane.gif");
+            Icon icon = new ImageIcon(getClass().getResource("/app/assets/Flying airplane.gif"));
             JLabel label = new JLabel(icon);
             String message = "Procesando compra...";
             JPanel contentPanel = new JPanel();

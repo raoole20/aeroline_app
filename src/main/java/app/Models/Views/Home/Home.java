@@ -103,22 +103,22 @@ public class Home {
         this.from = new CustomComboBoxEditor(
                 optionsMenuPanel,
                 "From:",
-                "src/main/java/app/assets/home.png",
+                "/app/assets/home.png",
                 this.countries);
         this.to = new CustomComboBoxEditor(
                 optionsMenuPanel,
                 "To:",
-                "/src/main/java/app/assets/home.png",
+                "/app/assets/home.png",
                 this.countries);
         // new CustomComboBoxEditor(
         //         optionsMenuPanel,
         //         "Depature Date:",
-        //         "/src/main/java/app/assets/home.png",
+        //         "/app/assets/home.png",
         //         true);
         // new CustomComboBoxEditor(
         //         optionsMenuPanel,
         //         "Return Date:",
-        //         "/src/main/java/app/assets/home.png",
+        //         "/app/assets/home.png",
         //         true);
 
         this.mainPanel.add(this.optionsMenuPanel, BorderLayout.NORTH);
@@ -249,7 +249,7 @@ public class Home {
 
     public void loader(JPanel parentElement) {
         try {
-            Icon icon = new ImageIcon("src/main/java/app/assets/Flying airplane.gif");
+            Icon icon = new ImageIcon(getClass().getResource("/app/assets/Flying airplane.gif"));
             JLabel label = new JLabel(icon);
 
             this.resultContainer.add(label, BorderLayout.CENTER);

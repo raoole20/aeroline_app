@@ -32,9 +32,9 @@ public class SeatsButton {
         this.button.setMaximumSize(new Dimension(50, 50));
 
         if(isAvailable) {
-            this.button.setIcon(new ImageIcon("src/main/java/app/assets/car.png"));
+            this.button.setIcon(new ImageIcon(getClass().getResource("/app/assets/car.png")));
         } else  {
-            this.button.setIcon(new ImageIcon("src/main/java/app/assets/car (2).png"));
+            this.button.setIcon(new ImageIcon(getClass().getResource("/app/assets/car (2).png")));
         }
 
         this.button.setToolTipText(seatsCODE);
@@ -62,11 +62,11 @@ public class SeatsButton {
             if(this.isAvailable) {
                 System.out.println("Se cambio el estado del asiento");
                 if(this.isSelected) {
-                    this.button.setIcon(new ImageIcon("src/main/java/app/assets/car.png"));
+                    this.button.setIcon(new ImageIcon(getClass().getResource("/app/assets/car.png")));
                     this.isSelected = false;
                     callback.run();
                 } else {
-                    this.button.setIcon(new ImageIcon("src/main/java/app/assets/car (1).png"));
+                    this.button.setIcon(new ImageIcon(getClass().getResource("/app/assets/car (1).png")));
                     this.isSelected = true;
                     callback.run();
                 }

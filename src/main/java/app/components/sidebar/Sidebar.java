@@ -57,7 +57,7 @@ public class Sidebar {
     private void buildMenuButton() {
         this.toggleMenuButton = new JButton();
         this.toggleMenuButton.setFocusPainted(false); // Esto evita que se pinte el borde de enfoque
-        this.toggleMenuButton.setIcon(new ImageIcon("src/main/java/app/assets/menu_15.png")); // NOI18N
+        this.toggleMenuButton.setIcon(new ImageIcon(getClass().getResource("/app/assets/menu_15.png"))); // NOI18N
         this.toggleMenuButton.setContentAreaFilled(false);
         this.toggleMenuButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.toggleMenuButton.setBorderPainted(false); // Opcional, si también quieres quitar el borde.
@@ -72,7 +72,7 @@ public class Sidebar {
     private void buildHomeButton() {
         this.homeButton = new JButton();
         this.homeButton.setFocusPainted(false); // Esto evita que se pinte el borde de enfoque
-        this.homeButton.setIcon(new ImageIcon("src/main/java/app/assets/home.png")); // NOI18N
+        this.homeButton.setIcon(new ImageIcon(getClass().getResource("/app/assets/home.png"))); // NOI18N
         this.homeButton.setContentAreaFilled(false);
         this.homeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.homeButton.setBorderPainted(false); // Opcional, si también quieres quitar el borde.
@@ -89,7 +89,7 @@ public class Sidebar {
     private void buildSetingsButton() {
         this.settingsButton = new JButton();
         this.settingsButton.setFocusPainted(false); // Esto evita que se pinte el borde de enfoque
-        this.settingsButton.setIcon(new ImageIcon("src/main/java/app/assets/settings.png.png")); // NOI18N
+        this.settingsButton.setIcon(new ImageIcon(getClass().getResource("/app/assets/settings.png"))); // NOI18N
         this.settingsButton.setContentAreaFilled(false);
         this.settingsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.settingsButton.setBorderPainted(false); // Opcional, si también quieres quitar el borde.

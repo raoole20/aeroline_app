@@ -69,7 +69,7 @@ public class CustomComboBoxEditor {
 
     public void setIcon(String url) {
         this.icon.setFocusPainted(false); // Esto evita que se pinte el borde de enfoque
-        this.icon.setIcon(new ImageIcon(url)); // NOI18N
+        this.icon.setIcon(new ImageIcon(getClass().getResource(url))); // NOI18N
         this.icon.setContentAreaFilled(false);
         this.icon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.icon.setBorderPainted(false); // Opcional, si también quieres quitar el borde.

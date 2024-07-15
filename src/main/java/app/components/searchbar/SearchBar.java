@@ -90,7 +90,7 @@ public class SearchBar {
         this.searchButton.setPreferredSize(new Dimension(50, 20));
         this.searchButton.setMinimumSize(new Dimension(50, 20));
         this.searchButton.setMaximumSize(new Dimension(50, 20));
-        this.searchButton.setIcon(new ImageIcon("src/main/java/app/assets/search.png"));
+        this.searchButton.setIcon(new ImageIcon(getClass().getResource("/app/assets/search.png")));
         this.searchButton.setToolTipText("Search");
         this.searchButton.setBackground(AppColors.LAPIS_LAZULI);
         this.searchButton.setOpaque(false);
