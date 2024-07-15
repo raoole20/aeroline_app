@@ -1,11 +1,11 @@
 package app.Models.DTOs;
 
 public class Customers {
-    private int id;
-    private String name;
-    private String lastName;
-    private String email;
-    private String identitycard;
+    public int id;
+    public String name;
+    public String lastName;
+    public String email;
+    public String identitycard;
 
     public Customers(int id, String name, String lastName, String email, String identitycard) {
         this.id = id;

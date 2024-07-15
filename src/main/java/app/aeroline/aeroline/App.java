@@ -1,9 +1,6 @@
 package app.aeroline.aeroline;
 
-import java.sql.Connection;
-
 import javax.swing.*;
-
 import app.Models.types.InnerRoutes;
 import app.Services.FlightService;
 import app.classes.Routes;

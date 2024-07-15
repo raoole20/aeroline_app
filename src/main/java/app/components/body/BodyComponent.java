@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import com.toedter.calendar.JDateChooser;
 
+import app.Models.Views.Config.ConfigView;
 import app.Models.Views.Home.Home;
 import app.Models.Views.Tickets.TicketsView;
 import app.Models.types.InnerRoutes;
@@ -63,7 +64,7 @@ public class BodyComponent {
                 this.tickets();
                 break;
             case REPORTS:
-                this.reports();
+                this.Config();
                 break;
             default:
                 this.home();
@@ -71,9 +72,8 @@ public class BodyComponent {
         }
     }
 
-    private void reports() {
-        JDateChooser dateChooser = new JDateChooser();
-        mainPanel.add(dateChooser);
+    private void Config() {
+        var configView = new ConfigView(this.mainPanel);
     }
 
     private void tickets() {

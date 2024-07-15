@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import app.Models.DTOs.Seat;
+import app.Models.types.SearchAction;
 import app.Services.FlightService;
 import app.classes.Routes;
 import app.components.Seats.SeatsButton;
+import app.components.searchbar.SearchBar;
 
 public class TicketsView {
     private JPanel mainPanel;
@@ -21,7 +23,7 @@ public class TicketsView {
     private JTextField name;
     private JTextField lastName;
     private JTextField email;
-    private JTextField identityCard;
+    private SearchBar identityCard;
     private JTextField seatsNumber;
     private JButton SubmitButton;
 
@@ -57,7 +59,7 @@ public class TicketsView {
 
         // events
         this.sumbmitButtonEvent();
-        this.onlyNumber(this.identityCard);
+        this.onlyNumber(this.identityCard.gTextField());
         this.onlyLetters(this.name);
         this.onlyLetters(this.lastName);
     }
@@ -96,7 +98,7 @@ public class TicketsView {
         this.name = new JTextField();
         this.lastName = new JTextField();
         this.email = new JTextField();
-        this.identityCard = new JTextField();
+        this.identityCard = new SearchBar(this.searchUserCallback(flightService), true);
         this.SubmitButton = new JButton("Submit");
         this.seatsNumber = new JTextField();
         seatsNumber.setText("0");
@@ -116,6 +118,31 @@ public class TicketsView {
         this.formPanel.add(this.buttonWrapper(SubmitButton), BorderLayout.SOUTH);
 
         return this.formPanel;
+    }
+
+    private SearchAction searchUserCallback(FlightService service) {
+        return (e) -> {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Buscando usuario...");
+
+
+            service.getUserByID(e)
+                .thenAccept(result -> {
+                    if(result != null) {
+                       JOptionPane.showMessageDialog(
+                        null, 
+                        "Usuario encontrado");
+                        this.name.setText(result.name);
+                        this.lastName.setText(result.lastName);
+                        this.email.setText(result.email);
+                    } else {
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Usuario no encontrado");
+                    }
+                });
+        };
     }
 
     private JPanel buildSeatsForm() {
@@ -162,6 +189,24 @@ public class TicketsView {
         wrapper.setMaximumSize(new Dimension(300, 60));
         wrapper.add(label, BorderLayout.NORTH);
         wrapper.add(field, BorderLayout.CENTER);
+
+        return wrapper;
+    }
+
+    private JPanel fieldWrapper(
+            SearchBar field,
+            JLabel label) {
+        JPanel wrapper = new JPanel();
+        wrapper.setLayout(new BorderLayout());
+        wrapper.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        wrapper.setBackground(Color.WHITE);
+
+        wrapper.setPreferredSize(new Dimension(300, 20));
+        wrapper.setSize(new Dimension(300, 60));
+        wrapper.setMinimumSize(new Dimension(200, 60));
+        wrapper.setMaximumSize(new Dimension(300, 60));
+        wrapper.add(label, BorderLayout.NORTH);
+        wrapper.add(field.getSearchBar(), BorderLayout.CENTER);
 
         return wrapper;
     }
@@ -235,7 +280,7 @@ public class TicketsView {
 
     private void sumbmitButtonEvent() {
         this.SubmitButton.addActionListener(e -> {
-            var cedula = this.identityCard.getText();
+            var cedula = this.identityCard.gTextField().getText();
             var nombre = this.name.getText();
             var apellido = this.lastName.getText();
             var correo = this.email.getText();
@@ -283,26 +328,43 @@ public class TicketsView {
             dialog.setSize(300, 200); // Ajusta el tamaño según sea necesario
             dialog.setLocationRelativeTo(null); // Centra el diálogo
 
-            this.flightService.comprarVuelo(
-                    this.route.getPayload().flighhtID,
-                    this.seatsButtons,
-                    asientos
-                    ).thenAccept(result -> {
-                        dialog.dispose();
-                        if (result) {
-                            dialog.removeAll();
-                            dialog.setVisible(false);
+            this.flightService.createUser(nombre, apellido, correo, cedula)
+                .thenAccept(r -> {
+                    if (r) {
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Usuario creado con exito");
+                        this.flightService.comprarVuelo(
+                            this.route.getPayload().flighhtID,
+                            this.seatsButtons,
+                            asientos
+                            ).thenAccept(result -> {
+                                dialog.dispose();
+                                if (result) {
+                                    dialog.removeAll();
+                                    dialog.setVisible(false);
+        
+                                    JOptionPane.showMessageDialog(
+                                            null,
+                                            "Compra realizada con exito");
+                                    this.route.setRoute(this.route.getPrevRoutes());
+                                } else {
+                                    dialog.removeAll();
+                                    dialog.setVisible(false);
+                                    JOptionPane.showMessageDialog(
+                                            null,
+                                            "Error al realizar la compra");
+                                }
+                            });      
+                    } else {
+                        dialog.removeAll();
+                        dialog.setVisible(false);
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Error al crear el usuario, el email ya existe");
+                    }
+                });
 
-                            JOptionPane.showMessageDialog(
-                                    null,
-                                    "Compra realizada con exito");
-                            this.route.setRoute(this.route.getPrevRoutes());
-                        } else {
-                            JOptionPane.showMessageDialog(
-                                    null,
-                                    "Error al realizar la compra");
-                        }
-                    });
             // Muestra el diálogo
             dialog.setVisible(true);
 

@@ -9,6 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import app.Config.MySqlConnection;
+import app.Models.DTOs.Customers;
 import app.Models.DTOs.Flight;
 import app.Models.DTOs.Seat;
 import app.components.Seats.SeatsButton;
@@ -223,7 +224,87 @@ public class FlightService {
             }
         });
     }
+    public CompletableFuture<Customers> getUserByID(String identitycard) {
+        return CompletableFuture.supplyAsync(() -> {
+            if (this.connection.error) {
+                System.out.println("Error: getUserByID, no hay conexion a la base de datos");
+                return null;
+            }
+            try {
+                var query = "SELECT * FROM customers where identitycard =  " + identitycard;
+                var result = this.connection.executeQuery(query);
+                Customers customer  = null;
 
+                if (result == null) {
+                    System.out.println("Flights not data");
+                    return null;
+                }
+
+                while (result.next()) {
+                    int id = result.getInt("id");
+                    String name = result.getString("name");
+                    String lastname = result.getString("lastname");
+                    String identityCard = result.getString("identitycard");
+                    String email = result.getString("email");
+
+                    customer = new Customers(
+                        id, 
+                        name, 
+                        lastname, 
+                        email, 
+                        identityCard
+                    );
+                }
+
+                if(customer == null){
+                    return null;
+                }
+
+                return customer;
+            } catch (Exception e) {
+                System.out.println("Error: getUserByID, no se pudo ejecutar la consulta");
+
+                return null;
+            }
+        });
+    }
+
+    public CompletableFuture<Boolean> createUser(
+        String name,
+        String lastname,
+        String email,
+        String identitycard
+    ) {
+        return CompletableFuture.supplyAsync(() -> {
+            if (this.connection.error) {
+                System.out.println("Error: createUser, no hay conexion a la base de datos");
+                return false;
+            }
+            try {
+                String query = "INSERT INTO customers (name, lastname, email, identitycard) VALUES (?, ?, ?, ?)";
+
+                try (PreparedStatement pstmt = connection.getConnection().prepareStatement(query)) {
+                    pstmt.setString(1, name);
+                    pstmt.setString(2, lastname);
+                    pstmt.setString(3, email);
+                    pstmt.setString(4, identitycard);
+
+                    int affectedRows = pstmt.executeUpdate();
+                    System.out.println("Filas afectadas: " + affectedRows);
+                    return true;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            } catch (Exception e) {
+                System.out.println("Error: createUser, no se pudo ejecutar la consulta");
+
+                return false;
+            }
+        });
+    }
+
+    
     public CompletableFuture<Boolean> comprarVuelo(
             int flightID,
             ArrayList<SeatsButton> seats,
