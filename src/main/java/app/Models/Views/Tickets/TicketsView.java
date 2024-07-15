@@ -35,6 +35,8 @@ public class TicketsView {
     // Route controller
     private Routes route;
 
+    private Boolean usuarioEncontrado = false;
+
     public TicketsView(
             JPanel parentElement,
             FlightService flightService,
@@ -136,10 +138,12 @@ public class TicketsView {
                         this.name.setText(result.name);
                         this.lastName.setText(result.lastName);
                         this.email.setText(result.email);
+                        this.usuarioEncontrado = true;
                     } else {
                         JOptionPane.showMessageDialog(
                                 null,
                                 "Usuario no encontrado");
+                        this.usuarioEncontrado = false;
                     }
                 });
         };
@@ -328,34 +332,13 @@ public class TicketsView {
             dialog.setSize(300, 200); // Ajusta el tamaño según sea necesario
             dialog.setLocationRelativeTo(null); // Centra el diálogo
 
-            this.flightService.createUser(nombre, apellido, correo, cedula)
+            if(!this.usuarioEncontrado) {
+                this.flightService.createUser(nombre, apellido, correo, cedula)
                 .thenAccept(r -> {
                     if (r) {
                         JOptionPane.showMessageDialog(
                                 null,
                                 "Usuario creado con exito");
-                        this.flightService.comprarVuelo(
-                            this.route.getPayload().flighhtID,
-                            this.seatsButtons,
-                            asientos
-                            ).thenAccept(result -> {
-                                dialog.dispose();
-                                if (result) {
-                                    dialog.removeAll();
-                                    dialog.setVisible(false);
-        
-                                    JOptionPane.showMessageDialog(
-                                            null,
-                                            "Compra realizada con exito");
-                                    this.route.setRoute(this.route.getPrevRoutes());
-                                } else {
-                                    dialog.removeAll();
-                                    dialog.setVisible(false);
-                                    JOptionPane.showMessageDialog(
-                                            null,
-                                            "Error al realizar la compra");
-                                }
-                            });      
                     } else {
                         dialog.removeAll();
                         dialog.setVisible(false);
@@ -364,7 +347,31 @@ public class TicketsView {
                                 "Error al crear el usuario, el email ya existe");
                     }
                 });
+            }
 
+            this.flightService.comprarVuelo(
+                this.route.getPayload().flighhtID,
+                this.seatsButtons,
+                asientos
+                ).thenAccept(result -> {
+                    dialog.dispose();
+                    if (result) {
+                        dialog.removeAll();
+                        dialog.setVisible(false);
+
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Compra realizada con exito");
+                        this.route.setRoute(this.route.getPrevRoutes());
+                    } else {
+                        dialog.removeAll();
+                        dialog.setVisible(false);
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Error al realizar la compra");
+                    }
+                });         
+             
             // Muestra el diálogo
             dialog.setVisible(true);
 
