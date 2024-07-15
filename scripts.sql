@@ -52,7 +52,7 @@ BEGIN
     DECLARE airlineCount INT DEFAULT 8;
     DECLARE cities TEXT;
     DECLARE airlines TEXT;
-    SET cities = 'New York,Los Angeles,Chicago,Houston,Phoenix,Philadelphia,San Antonio,San Diego,Dallas,San Jose,Austin,Jacksonville,Fort Worth,Columbus,Charlotte,San Francisco,Indianapolis,Seattle,Denver,Washington';
+    SET cities = 'United States,Canada,Mexico,Brazil,Argentina,Chile,Spain,France,Germany,Italy,United Kingdom,Sweden,Norway,Denmark,Finland,Russia,China,Japan,South Korea,India';
     SET airlines = 'American Airlines,United Airlines,Delta Airlines,Southwest Airlines,JetBlue,Alaska Airlines,Spirit Airlines,Frontier Airlines';
     WHILE i <= 200 DO
         INSERT INTO flight (flightNumber, departure, arrival, logoURL, departureTime, arrivalTime, price, airline, duration)

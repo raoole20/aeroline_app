@@ -85,4 +85,8 @@ public class CustomComboBoxEditor {
         }
         return this.comboBox;
     }
+
+    public JComboBox getComboBox() {
+        return this.comboBox;
+    }
 }

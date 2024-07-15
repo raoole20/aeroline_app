@@ -5,13 +5,14 @@ import javax.swing.border.EmptyBorder;
 
 import app.Models.DTOs.Flight;
 import app.Models.types.AppColors;
+import app.Services.FlightService;
 import app.classes.Routes;
 import app.components.customComboBox.CustomComboBoxEditor;
 import app.components.flightcard.FlightCard;
 import app.components.searchbar.SearchBar;
 
 import java.awt.*;
-import java.sql.Connection;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -20,6 +21,10 @@ public class Home {
     @SuppressWarnings("unused")
     private Dimension mainPanelDimension = new Dimension(Integer.MAX_VALUE, 300);
 
+    // filters 
+    private CustomComboBoxEditor from;
+    private CustomComboBoxEditor to;
+    private SearchBar searchBar;
     // childrens
     private JPanel optionsMenuPanel;
     private JPanel resultPanel;
@@ -58,11 +63,17 @@ public class Home {
     // routes controller
     private Routes routes;
 
+    // Service
+    private FlightService flightService;
+
     public Home(
         JPanel parentElement, 
-        Routes routes
+        Routes routes,
+        FlightService flightService
         ) {
         this.routes = routes;
+        this.flightService = flightService;
+
         this.mainPanel = new JPanel();
         this.mainPanel.setLayout(new BorderLayout());
         this.mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -89,28 +100,61 @@ public class Home {
         this.optionsMenuPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         this.optionsMenuPanel.setBackground(Color.WHITE);
 
-        new CustomComboBoxEditor(
+        this.from = new CustomComboBoxEditor(
                 optionsMenuPanel,
                 "From:",
                 "src/main/java/app/assets/home.png",
                 this.countries);
-        new CustomComboBoxEditor(
+        this.to = new CustomComboBoxEditor(
                 optionsMenuPanel,
                 "To:",
                 "/src/main/java/app/assets/home.png",
                 this.countries);
-        new CustomComboBoxEditor(
-                optionsMenuPanel,
-                "Depature Date:",
-                "/src/main/java/app/assets/home.png",
-                true);
-        new CustomComboBoxEditor(
-                optionsMenuPanel,
-                "Return Date:",
-                "/src/main/java/app/assets/home.png",
-                true);
+        // new CustomComboBoxEditor(
+        //         optionsMenuPanel,
+        //         "Depature Date:",
+        //         "/src/main/java/app/assets/home.png",
+        //         true);
+        // new CustomComboBoxEditor(
+        //         optionsMenuPanel,
+        //         "Return Date:",
+        //         "/src/main/java/app/assets/home.png",
+        //         true);
 
         this.mainPanel.add(this.optionsMenuPanel, BorderLayout.NORTH);
+    }
+
+    public void flitersChangedEvents(ActionListener callback) {
+       this.from.getComboBox().addActionListener(callback);
+       this.to.getComboBox().addActionListener(callback);
+
+    }
+
+    public ActionListener callbackChangeComboBox(FlightService service) {
+        return (e) -> {
+            var from = this.from.getComboBox().getSelectedItem().toString();
+            var to = this.to.getComboBox().getSelectedItem().toString();
+
+            if(from.equals("Select a country...") && to.equals("Select a country...")) {
+                service.getFlightsAsync()
+                    .thenAccept(result -> {
+                        System.out.println("Success getFlightsAsync");
+                        clearresultContainer();
+                        bodyContainer(result);
+                        repaintresultContainer();
+                    });
+            }
+
+            service.getFlightFlithByFilters(
+                from,
+                to)
+                .thenAccept(result -> {
+                    System.out.println("Success getFlightsAsync filters");
+                    clearresultContainer();
+                    bodyContainer(result);
+                    repaintresultContainer();
+                });
+        };
     }
 
     public void bodyHome() {
@@ -119,7 +163,17 @@ public class Home {
         this.bodyPanel.setOpaque(false);
         this.bodyPanel.setBorder(new EmptyBorder(10, 10, 0, 0));
 
-        var searchBar = new SearchBar();
+        this.searchBar = new SearchBar(
+           (search) -> {   
+            flightService.getFlightByCountries(search)
+                .thenAccept(result -> {
+                    System.out.println("Success getFlightsAsync filters");
+                    clearresultContainer();
+                    bodyContainer(result);
+                    repaintresultContainer();
+                });
+           }
+        );
 
         this.bodyPanel.add(searchBar.getSearchBar(), BorderLayout.NORTH);
         this.bodyPanel.add(this.bodyContainer(null), BorderLayout.CENTER);

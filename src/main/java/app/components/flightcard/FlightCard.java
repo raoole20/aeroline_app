@@ -222,9 +222,9 @@ public class FlightCard {
         centerPanel.add(timeIconPanel, BorderLayout.CENTER);
         centerPanel.add(centerTimeIconTextPanel, BorderLayout.SOUTH);
 
-        wrapperTimePanel.add(this.timePanelElement(this.data.departureTime, "JKTC"));
+        wrapperTimePanel.add(this.timePanelElement(this.data.departureTime, this.data.departure));
         wrapperTimePanel.add(centerPanel);
-        wrapperTimePanel.add(this.timePanelElement(this.data.arrivalTime, "SUB"));
+        wrapperTimePanel.add(this.timePanelElement(this.data.arrivalTime, this.data.arrival));
 
         timePanelParent.add(wrapperTimePanel);
     }

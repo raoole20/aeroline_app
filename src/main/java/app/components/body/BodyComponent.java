@@ -1,7 +1,6 @@
 package app.components.body;
 
 import java.awt.*;
-import java.sql.Connection;
 
 import javax.swing.*;
 
@@ -107,7 +106,8 @@ public class BodyComponent {
     private void home() {
         this.home = new Home(
             this.mainPanel,
-            this.route);
+            this.route,
+            this.flightService);
 
         this.home.loader(mainPanel);
         flightService.getFlightsAsync()
@@ -117,6 +117,10 @@ public class BodyComponent {
                     this.home.bodyContainer(result);
                     this.home.repaintresultContainer();
                 });
+
+        this.home.flitersChangedEvents(
+            this.home.callbackChangeComboBox(flightService)
+        );
     }
 
     public void setRouter(Routes route) {

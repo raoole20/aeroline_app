@@ -10,6 +10,9 @@ import java.awt.event.FocusListener;
 import javax.swing.*;
 
 import app.Models.types.AppColors;
+import app.Models.types.SearchAction;
+import app.Services.FlightService;
+
 
 public class SearchBar {
     private JPanel mainPanel;
@@ -22,7 +25,11 @@ public class SearchBar {
     //status 
     private boolean firstFocus = true;
 
-    public SearchBar() {
+    private SearchAction callback;
+    public SearchBar(
+        SearchAction searchAction
+    ) {
+        this.callback = searchAction;
         this.mainPanel = new JPanel();
         this.mainPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         this.mainPanel.setOpaque(false);
@@ -64,9 +71,14 @@ public class SearchBar {
                 if (searchInput.getText().isEmpty()) {
                     searchInput.setForeground(Color.GRAY);
                     searchInput.setText("Search...");
+                    callback.perform("");
+                } else {
+                    callback.perform(searchInput.getText());
                 }
             }
         });
+
+      
         this.searchInput.setColumns(20);
         this.searchInput.setToolTipText("Search...");
 
