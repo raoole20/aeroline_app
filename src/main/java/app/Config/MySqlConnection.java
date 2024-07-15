@@ -4,7 +4,7 @@ import java.sql.*;
 public class MySqlConnection {
     public String url = "jdbc:mysql://localhost:3306/aeroline?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true";
     public String user = "root";
-    public String password = "admin";
+    public String password = "";
 
     private Connection conexion;
     private Statement statement;
