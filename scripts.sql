@@ -40,10 +40,8 @@ CREATE TABLE IF NOT EXISTS seats (
 	seatsCODE VARCHAR(5) NOT NULL,
 	status BIT default 0,
 	FOREIGN KEY (flightID) REFERENCES flight(id)
-)
+);
 
-
-DELIMITER $$
 
 CREATE PROCEDURE insert_flights()
 BEGIN
@@ -69,14 +67,9 @@ BEGIN
         );
         SET i = i + 1;
     END WHILE;
-END$$
-
-DELIMITER ;
+END
 
 CALL insert_flights();
-
-
-DELIMITER //
 
 CREATE PROCEDURE insert_seats()
 BEGIN
@@ -111,9 +104,7 @@ BEGIN
 
     -- Cierra el cursor
     CLOSE cur;
-END //
-
-DELIMITER ;
+END
 
 -- Llamar al procedimiento para insertar los asientos
 CALL insert_seats();
