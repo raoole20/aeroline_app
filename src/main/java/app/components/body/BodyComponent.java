@@ -1,10 +1,11 @@
 package app.components.body;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
 
-import javax.swing.*;
-
-import com.toedter.calendar.JDateChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import app.Models.Views.Config.ConfigView;
 import app.Models.Views.Home.Home;
@@ -51,24 +52,12 @@ public class BodyComponent {
         this.clearPanel();
 
         switch (route) {
-            case HOME:
-                this.home();
-                break;
-            case FLIGHTS:
-                this.flights();
-                break;
-            case PASSENGERS:
-                this.passengers();
-                break;
-            case TICKETS:
-                this.tickets();
-                break;
-            case REPORTS:
-                this.Config();
-                break;
-            default:
-                this.home();
-                break;
+            case HOME -> this.home();
+            case FLIGHTS -> this.flights();
+            case PASSENGERS -> this.passengers();
+            case TICKETS -> this.tickets();
+            case REPORTS -> this.Config();
+            default -> this.home();
         }
     }
 

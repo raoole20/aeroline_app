@@ -31,7 +31,7 @@ public class Main {
             var _app = new App(flightService);
             _app.printMainMenu();
         } else {
-            FrameError.ViewError("Error connecting to the database");
+            FrameError.ViewError("Error connecting to the database", () -> {});
         }
     }
 }
